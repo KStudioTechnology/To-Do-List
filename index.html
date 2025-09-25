@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do List</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Lista zadań</h1>
+    <input type="text" id="TaskInput" placeholder="dodaj zadanie">
+    <button onclick="AddTask()">dodaj</button>
+    <ul id="TaskList"></ul> 
+
+
+
+    <script>
+        const TaskInput = document.getElementbyID('TaskInput');
+        const TaskList = document.getElementbyID('TaskList');
+
+        let Tasks = localStorage.setItem('tasks') || [];
+
+        function RenderTasks(){
+            TaskList.innerHTML = "";
+                Tasks.forEach(task,index) -> {
+                    const li = document.createELement('li');
+                    li.textcontent = task;
+
+
+                    const DeleteTask = document.createElement('button');
+                    DeleteTask.textcontent = 'x';
+                    deleteTask.onclick = () -> removeTask(indxx);
+
+                    li.appendChild(DeleteTask);
+                    taskList.appendChild(li);
+                }
+        }
+
+        function AddTask(){
+            const text = TaskInput.value.trim();
+            if (text === '')
+                return 0;
+            TaskInput.vlaue='';
+            saveTasks();
+            RenderTasks();
+        }
+        
+        function DeleteTask(){
+            tasks.splice(index,1);
+            SaveTasks();
+            RenderTasks();
+        }
+
+        function RenderTasks(){
+            localStorage.setItem('tasks',JSON.stringify(tasks));
+        }
+
+
+        RenderTasks();
+    </script>
+</body>
+</html>

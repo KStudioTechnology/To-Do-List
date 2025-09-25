@@ -13,18 +13,18 @@
     <ul id="TaskList"></ul> 
 
     <script>
-        const TaskInput = document.getElementById('TaskInput');
-        const TaskList = document.getElementById('TaskList');
+        let TaskInput = document.getElementById('TaskInput');
+        let TaskList = document.getElementById('TaskList');
 
         let Tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 
         function RenderTasks(){
             TaskList.innerHTML = "";
             Tasks.forEach((task, index) => {
-                const li = document.createElement('li');
+                let li = document.createElement('li');
                 li.textContent = task;
 
-                const DeleteBtn = document.createElement('button');
+                let DeleteBtn = document.createElement('button');
                 DeleteBtn.textContent = 'x';
                 DeleteBtn.onclick = () => DeleteTask(index);
 

@@ -12,49 +12,45 @@
     <button onclick="AddTask()">dodaj</button>
     <ul id="TaskList"></ul> 
 
-
-
     <script>
-        const TaskInput = document.getElementbyID('TaskInput');
-        const TaskList = document.getElementbyID('TaskList');
+        const TaskInput = document.getElementById('TaskInput');
+        const TaskList = document.getElementById('TaskList');
 
-        let Tasks = localStorage.setItem('tasks') || [];
+        let Tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 
         function RenderTasks(){
             TaskList.innerHTML = "";
-                Tasks.forEach(task,index) -> {
-                    const li = document.createELement('li');
-                    li.textcontent = task;
+            Tasks.forEach((task, index) => {
+                const li = document.createElement('li');
+                li.textContent = task;
 
+                const DeleteBtn = document.createElement('button');
+                DeleteBtn.textContent = 'x';
+                DeleteBtn.onclick = () => DeleteTask(index);
 
-                    const DeleteTask = document.createElement('button');
-                    DeleteTask.textcontent = 'x';
-                    deleteTask.onclick = () -> removeTask(indxx);
-
-                    li.appendChild(DeleteTask);
-                    taskList.appendChild(li);
-                }
+                li.appendChild(DeleteBtn);
+                TaskList.appendChild(li);
+            });
         }
 
         function AddTask(){
             const text = TaskInput.value.trim();
-            if (text === '')
-                return 0;
-            TaskInput.vlaue='';
-            saveTasks();
+            if (text === '') return;
+            Tasks.push(text);
+            TaskInput.value = '';
+            SaveTasks();
             RenderTasks();
         }
         
-        function DeleteTask(){
-            tasks.splice(index,1);
+        function DeleteTask(index){
+            Tasks.splice(index, 1);
             SaveTasks();
             RenderTasks();
         }
 
-        function RenderTasks(){
-            localStorage.setItem('tasks',JSON.stringify(tasks));
+        function SaveTasks(){
+            localStorage.setItem('tasks', JSON.stringify(Tasks));
         }
-
 
         RenderTasks();
     </script>

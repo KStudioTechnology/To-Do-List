@@ -7,9 +7,11 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Lista zadań</h1>
-    <input type="text" id="TaskInput" placeholder="dodaj zadanie">
-    <button onclick="AddTask()">dodaj</button>
+    <section>
+        <h1>Lista zadań</h1>
+        <input type="text" id="TaskInput" placeholder="dodaj zadanie">
+        <button onclick="AddTask()">dodaj</button>
+    </sections>
     <ul id="TaskList"></ul> 
 
     <script>
@@ -18,39 +20,59 @@
 
         let Tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 
-        function RenderTasks(){
+        function RenderTasks() {
             TaskList.innerHTML = "";
             Tasks.forEach((task, index) => {
                 let li = document.createElement('li');
-                li.textContent = task;
+
+                let checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.checked = task.done;
+                checkbox.onchange = () => ToggleDone(index);
+
+                let span = document.createElement('span');
+                span.textContent = task.text;
+                span.style.textDecoration = task.done ? 'line-through' : 'none';
 
                 let DeleteBtn = document.createElement('button');
                 DeleteBtn.textContent = 'x';
                 DeleteBtn.onclick = () => DeleteTask(index);
 
+                li.appendChild(checkbox);
+                li.appendChild(span);
                 li.appendChild(DeleteBtn);
                 TaskList.appendChild(li);
             });
         }
 
-        function AddTask(){
+        function AddTask() {
             const text = TaskInput.value.trim();
             if (text === '') return;
-            Tasks.push(text);
+            Tasks.push({ text: text, done: false });
             TaskInput.value = '';
             SaveTasks();
             RenderTasks();
         }
-        
-        function DeleteTask(index){
+
+        function DeleteTask(index) {
             Tasks.splice(index, 1);
             SaveTasks();
             RenderTasks();
         }
 
-        function SaveTasks(){
+        function ToggleDone(index) {
+            Tasks[index].done = !Tasks[index].done;
+            SaveTasks();
+            RenderTasks();
+        }
+
+        function SaveTasks() {
             localStorage.setItem('tasks', JSON.stringify(Tasks));
         }
+
+        TaskInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') AddTask();
+        });
 
         RenderTasks();
     </script>
